@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Testing</title>
+<script src="script.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="styles.css" >
+</head>
+<body>
+<p class="y">2020</p>
+<label for="#input_4_43">NumEmployQ1</label>
+<input id="#input_4_43" onchange="pushRefund2()"></input>
+
+<label for="#input_4_41">payRollQ1</label>
+<input id="#input_4_41" onchange="pushRefund2()"></input>
+
+<label for="#input_4_202">totRefundQ1</label>
+<input id="#input_4_202"></input>
+
+<br><br>
+
+<label for="#input_4_42">NumEmployQ2</label>
+<input id="#input_4_42" onchange="pushRefund2()"></input>
+
+<label for="#input_4_44">payRollQ2</label>
+<input id="#input_4_44" onchange="pushRefund2()"></input>
+
+<label for="#input_4_189">totRefundQ2</label>
+<input id="#input_4_189"></input>
+
+<br><br>
+
+<label for="#input_4_75">NumEmployQ3</label>
+<input id="#input_4_75" onchange="pushRefund2()"></input>
+
+<label for="#input_4_74">payRollQ3</label>
+<input id="#input_4_74" onchange="pushRefund2()"></input>
+
+<label for="#input_4_181">totRefundQ3</label>
+<input id="#input_4_181"></input>
+
+<br><br>
+
+<label for="#input_4_90">NumEmployQ4</label>
+<input id="#input_4_90" onchange="pushRefund2()"></input>
+
+<label for="#input_4_88">payRollQ4</label>
+<input id="#input_4_88" onchange="pushRefund2()"></input>
+
+<label for="#input_4_188">totRefundQ4</label>
+<input id="#input_4_188"></input>
+
+<br><br>
+<a href="info.pdf" download="form">Download a pdf with my information for 2020</a>
+<br><br>
+<p class="y">2021</p>
+
+<label for="row11">NumEmployQ1</label>
+<input type="text" id="row11" onchange="update('row11','row12')">
+<label for="row12">payRollQ1</label>
+<input type="text" id="row12" onchange="update('row11','row12')">
+<label for="ans1">totRefundQ1</label>
+<input type="text" id="ans1" readonly>
+<br>
+<br>
+
+<label for="row21">NumEmployQ2</label>
+<input type="text" id="row21" onchange="update('row21','row22')">
+<label for="row22">payRollQ2</label>
+<input type="text" id="row22" onchange="update('row21','row22')">
+<label for="ans2">totRefundQ2</label>
+<input type="text" id="ans2" readonly>
+<br>
+<br>
+
+<label for="row31">NumEmployQ3</label>
+<input type="text" id="row31" onchange="update('row31','row32')">
+<label for="row32">payRollQ3</label>
+<input type="text" id="row32" onchange="update('row31','row32')">
+<label for="ans3">totRefundQ3</label>
+<input type="text" id="ans3" readonly>
+<br>
+<br>
+
+<label for="row41">NumEmployQ4</label><em></em>
+<input type="text" id="row41" onchange="update('row41','row42')">
+<label for="row42">payRollQ4</label>
+<input type="text" id="row42" onchange="update('row41','row42')">
+<label for="ans4">totRefundQ4</label>
+<input type="text" id="ans4" readonly>
+<br>
+<br>
+
+<a href="info.pdf" download="form">Download a pdf with my information for 2021</a>
+</body>
+<script src="http://code.jquery.com/jquery-1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function update_employee_hash_map(
+    employee_erc_hash_map = null,
+    num_of_employees_in_quarter = null,
+    total_payroll_for_quarter = null
+) {
+  /*
+  Update the employee ERC hash map with the new ERCs.
+  */
+  let avg_pay_per_employee, max_erc_per_employee;
+  let total_erc_for_quarter = 0;
+
+  // Local function to return a range of array given the first and last index.
+  // Works similar to range function in python
+  // Ex: range(0, 2) returns [0, 1]
+  //     range(3, 10) returns [3, 4, 5, 6, 7, 8, 9]
+  function range(start, end) {
+    return Array(end - start).fill().map((_, idx) => start + idx)
+  }
+
+  if (employee_erc_hash_map === null) {
+    employee_erc_hash_map = {};
+  }
+
+  let number_of_old_employees = Object.keys(employee_erc_hash_map).length;
+
+  // Calculate the maximum credit per employee possible for this quarter
+  avg_pay_per_employee = total_payroll_for_quarter / num_of_employees_in_quarter;
+  if (avg_pay_per_employee >= 10000) {
+    // If the average pay per employee is greater than $10,000, then the maximum
+    // credit per employee possible is $5,000.
+    max_erc_per_employee = 5000;
+  } else {
+    // If the average pay per employee is less than $10,000, then the maximum
+    // credit per employee possible is 50% of the average pay per employee.
+    max_erc_per_employee = avg_pay_per_employee / 2;
+  }
+
+  if (number_of_old_employees < num_of_employees_in_quarter) {
+    // If there are new employees in this quarter, we should update the old ones with
+    // the extra ERC (if needed) and add the value for the new ones, meanwhile keeping
+    // track of the total ERC compensated.
+    let number_of_new_employees = num_of_employees_in_quarter - number_of_old_employees;
+
+    // Update the credit for old employees
+    let new_erc, old_erc;
+    for (let key, _pj_c = 0, _pj_a = Object.keys(employee_erc_hash_map), _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+      // For the old employees, we add the new credits in the already existing
+      // credits and do not let it cross 5000
+      key = _pj_a[_pj_c];
+      old_erc = employee_erc_hash_map[key];
+      new_erc = old_erc + max_erc_per_employee;
+      if (new_erc > 5000) {
+        new_erc = 5000;
+      }
+      employee_erc_hash_map[key] = new_erc;
+        // Update the total ERC with the newly added value for each old employee
+        total_erc_for_quarter += new_erc - old_erc;
+    }
+
+    // Add the credits and new employees in the ERC hash map
+    let new_employees;
+    new_employees = range(number_of_old_employees, num_of_employees_in_quarter);
+    for (let i, _pj_c = 0, _pj_a = new_employees, _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+      i = _pj_a[_pj_c];
+      employee_erc_hash_map[i] = max_erc_per_employee;
+    }
+    // Update the total ERC with the total credits added for the new employees
+    total_erc_for_quarter += max_erc_per_employee * number_of_new_employees;
+  }
+
+  else
+  {
+    // If the number of employees decreases, we should delete the old employees
+    // which are not anymore in the quarter.
+    let keys_to_remove = range(num_of_employees_in_quarter, number_of_old_employees);
+    for (let key, _pj_c = 0, _pj_a = keys_to_remove, _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+      key = _pj_a[_pj_c];
+      delete employee_erc_hash_map[key];
+    }
+
+    // We should update the old ones with
+    // the extra ERC (if needed) and keep track of the total ERC compensated.
+    let new_erc, old_erc;
+    for (let key, _pj_c = 0, _pj_a = Object.keys(employee_erc_hash_map), _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+      key = _pj_a[_pj_c];
+      old_erc = employee_erc_hash_map[key];
+      new_erc = old_erc + max_erc_per_employee;
+      if (new_erc > 5000) {
+        new_erc = 5000;
+      }
+      employee_erc_hash_map[key] = new_erc;
+      total_erc_for_quarter += new_erc - old_erc;
+    }
+  }
+
+  return [employee_erc_hash_map, total_erc_for_quarter];
+}
+
+function pushRefund2() {
+    // GET THE ELEMENT THAT CALLED THE FUNCTION
+    let source = event.target;
+
+    // ELEMENT ARRAYS
+    qtrs = [
+        {
+            'name': '2020Q1',
+            'numEmploy': '#input_4_43',
+            'payRoll': '#input_4_41',
+            'refund': '#input_4_202',
+        },
+        {
+            'name': '2020Q2',
+            'numEmploy': '#input_4_42',
+            'payRoll': '#input_4_44',
+            'refund': '#input_4_189',
+        },
+        {
+            'name': '2020Q3',
+            'numEmploy': '#input_4_75',
+            'payRoll': '#input_4_74',
+            'refund': '#input_4_181',
+        },
+        {
+            'name': '2020Q4',
+            'numEmploy': '#input_4_90',
+            'payRoll': '#input_4_88',
+            'refund': '#input_4_188',
+        }
+    ];
+
+    let totalRefunds = [0, 1, 2, 3];
+    let pastData = [{}, 0];
+
+    // Every time there is a change in data, we should recalculate all the ERC
+    // refunds for all the quarters.
+    for (let i = 0; i < totalRefunds.length; i++) {
+        let pastEmployees = parseFloat(document.getElementById(qtrs[i]['numEmploy']).value);
+        let pastPayroll = parseInt(document.getElementById(qtrs[i]['payRoll']).value);
+        if (parseInt(pastPayroll) && parseInt(pastEmployees)) {
+            pastData = update_employee_hash_map(pastData[0], pastEmployees, pastPayroll);
+            console.log(`Credit per employee until quarter:`, i+1 , pastData[0]);
+            // Fill the refund value for the past quarter
+            document.getElementById(qtrs[i]['refund']).value = pastData[1].toFixed(2).toLocaleString('en-US');
+        } else {
+            // If a quarter misses the data for the number of employees or the payroll, we should
+            // stop further calculations.
+            break;
+        }
+    }
+    console.log('------------------------------------');
+}
+
+</script>
+</html>

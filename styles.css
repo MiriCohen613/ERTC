@@ -1,0 +1,83 @@
+/* disclaimer */
+#box{
+  outline: 2px solid red;
+  padding: 10px;
+  font-size: 25px;
+  margin: 90px 90px 50px 90px
+}
+#middle{
+  text-align: center;
+}
+
+/* disclaimer and quarters */
+.next{
+  background-color: dodgerblue ;
+  color: white;
+  font-size: 25px;
+  font-family: sans-serif;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  text-decoration:none
+}
+.next:hover{
+  background-color: turquoise
+}
+
+/* question and quarters*/
+.buttons{
+  color: royalblue;
+  font-size: 20px;
+}
+
+/* question */
+#text{
+  color: dodgerblue;
+  font-size:25px;
+  font-family: sans-serif;
+}
+#center{
+  margin: 140px 150px 0px 150px;
+  padding: 50px 0px 50px 0px;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+/* quarters */
+#page{
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin: 50px 120px 0px 120px;
+  padding: 20px
+}
+#fullitem12,#fullitem22,#fullitem32,#fullitem42,#fullitem13,#fullitem23,#fullitem33,#fullitem43{
+  margin-right: 115px;
+  display: inline-block;
+  padding: 2px;
+  outline: 2px solid steelblue;
+  opacity: 1
+}
+.row{
+  margin: 0px 0px 50px 100px;
+  text-align: center;
+}
+.item{
+  margin-right: 10px
+}
+.year{
+  text-align: center;
+  font-weight: bolder;
+  font-size: 25px;
+  color: dodgerblue;
+  font-family: sans-serif;
+  margin-bottom: 30px
+}
+.y{
+  font-weight: bolder;
+  font-size: 25px;
+  font-family: sans-serif;
+  margin-bottom: 30px
+}
+#input12,#input22,#input32,#input42,#input13,#input23,#input33,#input43{
+  display: none;
+}
